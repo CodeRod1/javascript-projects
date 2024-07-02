@@ -35,6 +35,19 @@ console.log("Hold status: " + holdStatus(cargoHold));
 
 //d). Decide where to best place your function call to gather our new fuel.
 
+let nonSuspiciousFunction = function(a) {
+  if (checkFuel(a) === "green") {
+    return a - 99999;
+  } else if (checkFuel(a) === "yellow") {
+return a - 49999;
+  } else {
+    return a;
+  }
+}
+let siphonedFuel = nonSuspiciousFunction(fuelLevel);
+console.log("Siphoned fuel:", fuelLevel - siphonedFuel);
+console.log("Remaining fuel level:", siphonedFuel);
+console.log("Remaining fuel color:", checkFuel(siphonedFuel));
 /* Next, liberate some of that glorious cargo.
  */
 
@@ -46,6 +59,20 @@ console.log("Hold status: " + holdStatus(cargoHold));
 
 //d). Don’t get hasty, matey! Remember to test your function.
 
+let liberateCargo = function(cargoHold) {
+  let stolenItems = [];
+  let count = 0;
+  for (let i = 0; i < cargoHold.length; i++) {
+    if (cargoHold[i] !== 'water' && count < 2) {
+      stolenItems.push(cargoHold[i]); 
+      cargoHold[i] = 'worthless junk'; 
+      count++;
+    }
+  }
+  return stolenItems;
+}
+
+
 /* Finally, you need to print a receipt for the accountant. Don’t laugh! That genius knows MATH and saves us more gold than you can imagine.
  */
  
@@ -54,3 +81,19 @@ console.log("Hold status: " + holdStatus(cargoHold));
 //b). Call your anonymous fuel and cargo functions from within irs.
 
 //c). Use a template literal to return, "Raided _____ kg of fuel from the tanks, and stole ____ and ____ from the cargo hold."
+
+let irs = function (fuelLevel, cargoHold) {
+  let siphonedFuel = nonSuspiciousFunction(fuelLevel); 
+  let stolenItems = liberateCargo(cargoHold);
+  console.log(`Receipt:
+    - Raided ${fuelLevel - siphonedFuel} kg of fuel from the tanks,
+    - Stole ${stolenItems[0]} and ${stolenItems[1]} from the cargo hold.`);
+}
+
+console.log("Initial Cargo Hold:", cargoHold);
+console.log("Initial Fuel Level:", fuelLevel);
+
+irs(fuelLevel, cargoHold);
+
+console.log("Remaining Cargo Hold:", cargoHold);
+console.log("Remaining Fuel Level:", siphonedFuel);
